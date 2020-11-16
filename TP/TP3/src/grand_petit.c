@@ -24,7 +24,7 @@ int main (){
     for (i=0; i<100; i++){
         tableau[i] = my_rand();
     }
-    printf("Création d'un tableau d'entiers aléatoires compris entre 1 et 100 \n");
+    printf("Création d'un tableau d'entiers aléatoires compris entre 1 et 1000 \n");
 
    min = tableau[0];
    max = tableau[0];
