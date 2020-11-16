@@ -9,12 +9,13 @@ tableau de 10 couleurs. Pensez à initialiser les coleurs en notation
 hexadécimale (r : 0xef, g : 0x78 etc.).
 */
 #include<stdio.h>
+
 int main (){
 struct RGBA {
-    short R;
-    short V;
-    short B; // Un octet ?
-    float A;
+    unsigned char R;
+    unsigned char V;
+    unsigned char B; // Un octet ?
+    unsigned char A;
 };
 
 int j,i;
@@ -54,7 +55,6 @@ for(i=0; i<10; i++){
     if( i >6 && i<=9)tableau[i] = blue;
 }
 for(j=0; j<10; j++){
-alpha=tableau[j].A / 255;
-printf("La couleur n°%d est composé de rouge : %hi, de vert : %hi, de bleu : %hi et son alpha est de : %f \n", j + 1 ,tableau[j].R,tableau[j].V,tableau[j].B,alpha);
-}
-}
+alpha=((float)tableau[j].A) / 255.0;
+printf("La couleur n°%d est composé de rouge : %u, de vert : %u, de bleu : %u et son alpha est de : %f \n", j + 1 ,tableau[j].R,tableau[j].V,tableau[j].B,alpha);
+}}
