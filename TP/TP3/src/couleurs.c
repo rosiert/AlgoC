@@ -1,12 +1,3 @@
-/*
-#### Exercice 2.7 [★★]
-
-Une couleur en format RGBA contient 4 valeurs : rouge (R), vert (G),
-bleu (B) et alpha (A). Chaque valeur est un octet. Créez un programme
-*couleurs.c* en utilisant struct. Ensuite, créer et initialiser un
-tableau de 10 couleurs. Pensez à initialiser les coleurs en notation
-hexadécimale (r : 0xef, g : 0x78 etc.).
-*/
 #include<stdio.h>
 
 int main (){
