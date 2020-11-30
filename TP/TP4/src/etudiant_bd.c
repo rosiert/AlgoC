@@ -10,15 +10,13 @@ pour chaque étudiant(e)). Testez votre code. Cette fois, vous demanderez
 Par exemple, etudiant.txt
 
 ```               
-Dupont, Pierre, Boulevard du 11 novembre 1918, Villeurbanne, 20, 30               ...             
+Dupont, Pierre, Boulevard du 11 novembre 1918, Villeurbanne, 20,30                ...             
 ```
 */
+
 #include <stdio.h>
 #include <stdlib.h>
-
-int lire_fichier(char *nom_de_fichier);
-int ecrire_dans_fichier(char *nom_de_fichier, char *message);
-
+#include <string.h>
 
 int main(){
     struct etudiant {
@@ -27,94 +25,61 @@ int main(){
     char adresse[50];
     int notes[2];
     };
-    int i;
+    
+    //variable
+    int i,c,notec,notesys;
+    FILE * fp;
+    char *message;
+    char nom1[20], prenom1[20], adresse1[20];
 
-    struct etudiant vidal;
-    strcpy(vidal.prenom, "Thomas");
-    strcpy(vidal.nom, "Vidal");
-    strcpy(vidal.adresse, "Lyon en coloc");
-    vidal.notes[0] = 19;
-    vidal.notes[1] = 20;
-
-    struct etudiant gounon;
-    strcpy(gounon.prenom, "Loann");
-    strcpy(gounon.nom, "Gounon");
-    strcpy(gounon.adresse, "Lyon en coloc");
-    gounon.notes[0] = 16;
-    gounon.notes[1] = 17;
-
-
-    struct etudiant decorme;
-    strcpy(decorme.prenom, "Clément");
-    strcpy(decorme.nom, "Decorme");
-    strcpy(decorme.adresse, "Lyon en coloc");
-    decorme.notes[0] = 12;
-    decorme.notes[1] = 13;
-
-    struct etudiant blache;
-    strcpy(blache.prenom, "anael");
-    strcpy(blache.nom, "Blache");
-    strcpy(blache.adresse, "Lyon en coloc");
-    blache.notes[0] = 9;
-    blache.notes[1] = 10;
-
-    struct etudiant rosier;
-    strcpy(rosier.prenom, "Théo");
-    strcpy(rosier.nom, "Rosier");
-    strcpy(rosier.adresse, "Lyon vers l'ITII");
-    rosier.notes[0] = 2;
-    rosier.notes[1] = 3;
+    struct etudiant etudiant1;
+    struct etudiant etudiant2;
+    struct etudiant etudiant3;
+    struct etudiant etudiant4;
+    struct etudiant etudiant5;
 
     struct etudiant liste[5];
-    liste[0]=vidal;
-    liste[1]=gounon;
-    liste[2]=blache;
-    liste[3]=rosier;
-    liste[4]=decorme;
+    liste[0]=etudiant1;
+    liste[1]=etudiant2;
+    liste[2]=etudiant3;
+    liste[3]=etudiant4;
+    liste[4]=etudiant5;
 
-    for(i = 0; i<4; i++){
-        printf("Nom : %s, prénom : %s,adresse : %s, note de proggramation en C: %d, note de système d'explotation %d \n",liste[i].prenom,liste[i].nom,liste[i].adresse,liste[i].notes[0],liste[i].notes[1]);
+    for (i=0 ; i<5; i++){
+       printf("Veuillez saisir le nom de l'étudiant %d, le prénom de l'étudiant, l'adresse et ses notes en C et en AdmSys : ", i);
+       scanf("%s %s %s %d %d",nom1,prenom1,adresse1,&liste[i].notes[0],&liste[i].notes[1]);
+       strcpy(liste[i].nom, nom1);
+       strcpy(liste[i].prenom, prenom1);
+       strcpy(liste[i].adresse, adresse1);       
     }
+
+    //Fichier
+    fp = fopen ("etudiant.txt", "w+");
+    if (fp != NULL){
+        for(i = 0; i<5; i++){ 
+        fprintf(fp, "%s, %s, adr : %s, %d, %d \n",liste[i].prenom,liste[i].nom,liste[i].adresse,liste[i].notes[0],liste[i].notes[1]);
+        }    
+    }
+    else{
+        printf("Le fichier ne peut pas être ouvert ! \n");
+    } 
+    fclose(fp);
+    
+    //Affichage
+    fp = fopen ("etudiant.txt", "r");
+    if (fp != NULL){
+        while(!feof(fp)) {
+            c = fgetc(fp);
+            printf("%c", c);
+        }
+        printf("\n");
+    }
+    else{
+        printf("Le fichier ne peut pas être ouvert ! \n");
+    }
+    fclose(fp);
 }
 
-int lire_fichier(char *nom_de_fichier){
-   FILE *fp;
-   int c;
-  
-   fp = fopen(nom_de_fichier,"r");
 
 
-   if (fp != NULL){
-      printf("Voici le contenu de votre fichier : \n");
-      while(!feof(fp)) {
-         c = fgetc(fp);
-         printf("%c", c);
-      }
-      printf("\n");
-   fclose(fp);
-   
-   }
-   else{
-      printf("Le fichier ne peut pas être ouvert ! \n");
-   }
-   return(0);
-}
 
-int ecrire_dans_fichier(char *nom_de_fichier, char *message){
-   FILE * fp;
-   int c;
-   fp = fopen (nom_de_fichier, "a+");
-
-
-   if (fp != NULL){
-      //fprintf(fp, "%s", message);
-      fputs(message, fp);
-      printf("Changements : \n");
-      fclose(fp);
-      lire_fichier(nom_de_fichier);
-   }
-   else{
-      printf("Le fichier ne peut pas être ouvert ! \n");
-   }
-   return(0);
-}
