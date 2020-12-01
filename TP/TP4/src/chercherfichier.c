@@ -22,64 +22,45 @@ Ligne 30, 1 fois
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "fichier.h"
 
-int find_fichier(char *nom_de_fichier, char *word);
-
+int find_fichier(char *nom_de_fichier, char *motR);
 
 int main(int argc, char **argv){
     char *mot = argv[1];
     find_fichier("test.txt", mot);
 }
     
-
-
-int find_fichier(char *nom_de_fichier, char *word){
-    FILE *fp;
-    int i, compteur, stop, ligne;
-    char c;
-    compteur = 0;
+int find_fichier(char *nom_de_fichier, char *motR){    
+    int compteur,ligne;
     ligne = 0;
+    FILE *Fichier; 
   
-   fp = fopen(nom_de_fichier,"r");
+    char motFr[255];
+    char *line;
 
-   if (fp != NULL){
-      printf("Voici le contenu de votre fichier : \n");
-      while(!feof(fp)) {
-         c = fgetc(fp);
-         if (c == '\n'){
-             ligne += 1;
-         }
-         if (c == word[0]) {
-             stop = 0;
-             
-             i == 1;
-             while (stop !=1) { 
-                 if (c == word[i]){
-                     c = fgetc(fp);
-                     
-                     ++i;
-                     if (i == sizeof(word)-1 && c == word[i]){
-                        compteur +=1;
-                        printf("Ligne : %d, %d fois \n", ligne, compteur);
-                        stop =1 ;
-                     }
-                 }
-                 else{
-                     if(c == word[0]) {
-                        i=1;
-                     }
-                     else {
-                        stop = 1;}
-                 }
-             }
-         }
-      }
-   fclose(fp);
-   
-   }
-   else{
-      printf("Le fichier ne peut pas être ouvert ! \n");
-   }
-   return(0);
+    Fichier = fopen(nom_de_fichier, "r");
+    if (!Fichier)
+         printf("\aERREUR: Impossible d'ouvrir le fichier: %s.\n", nom_de_fichier);
+  
+    while (fgets(motFr,255,Fichier) != NULL)
+    {
+        ++ligne;
+        compteur = 0;
+        line = strstr(motFr, motR);
+        if (line != NULL){
+            ++compteur;
+            strncpy (line, "remplacement", sizeof(motR));
+            line = strstr(line, motR);
+            while (line != NULL) {
+                ++compteur;
+                line = strstr(line, motR);
+                strncpy (line, "remplacement", sizeof(motR));
+            }
+        }
+        if(compteur > 0){
+            printf("Ligne %d, %d fois \n", ligne, compteur);
+        }   
+    }
+    fclose(Fichier);
+    return 0;
 }
